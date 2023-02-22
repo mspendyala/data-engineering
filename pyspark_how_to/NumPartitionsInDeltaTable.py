@@ -1,3 +1,18 @@
+# First Method:
+
+# specify the Delta table name
+table_name = "my_delta_table"
+
+# execute a SQL query to retrieve the partition values
+query = f"SHOW PARTITIONS {table_name}"
+partitions = spark.sql(query)
+
+# show the result
+display(partitions.count())
+#partitions.show()
+
+## 2nd Method - Not to accurate
+
 # set Delta table name
 delta_table_name = "schema_name.table_name"
 
