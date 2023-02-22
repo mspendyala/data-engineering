@@ -1,0 +1,5 @@
+actual_model_raw = spark.sql('''select model from {0} where year={1} and month={2} and day={3} limit 1'''.format(dacs_table_name, year, month, day)).collect()
+
+actual_model_list = [row["model"] for row in actual_model_raw]
+
+print(actual_model_list)
