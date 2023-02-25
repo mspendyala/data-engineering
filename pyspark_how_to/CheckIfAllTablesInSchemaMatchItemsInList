@@ -1,0 +1,28 @@
+from pyspark.sql.functions import concat_ws, date_format, col, lower, regexp_replace, upper, when
+distinct_item_list = spark.sql("select distinct(col_name) from schema.table_name where year=2022 and month=12 and day=1").collect()
+distinct_item_list_list = [x["col_name"] for x in distinct_item_list]
+missing_item_list = []
+existing_model_list = []
+
+clean_item = ''
+# Check if there are tables in the db_schema schema that match each item in the list
+for orig_item in distinct_item_list_list:
+  if orig_item is None:
+    clean_item = 'NO_MACHINE'
+  clean_item = clean_item.replace(" ", "")
+  clean_item = clean_item.replace("-", "_")
+  clean_item = clean_item.replace(".", "")
+  clean_item = clean_item.replace("\u2122", "")
+  #print(item)
+  table_name = f"schema_name.table_name_pattern_{clean_item}"
+  if spark.catalog.tableExists(table_name):
+    #print(f"Table {table_name} exists.")
+    existing_model_list.append(orig_item)
+  else:
+    #print(f"Table {table_name} does not exist.")
+    missing_item_list.append(orig_item)
+
+print(missing_item_list)
+print("missing model list length - {}".format(len(missing_item_list)))
+print(existing_model_list)
+print("existing_model_list length - {}".format(len(existing_model_list)))
