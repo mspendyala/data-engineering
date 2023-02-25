@@ -1,0 +1,17 @@
+from pyspark.sql.functions import col
+
+schema_name = 'tbl_schema'
+table_pattern = 'table_name_pattern_'
+matched_table_list = []
+
+# Create a list of table names in the schema
+table_names = [table.name for table in spark.catalog.listTables(schema_name)]
+
+# Iterate over the tables and check if there are any records that meet the specified criteria
+for table_name in table_names:
+  if table_name.startswith(table_pattern):
+    matched_table_list.append(table_name)
+
+print("Total number of tables that match {} pattern are {}".format(table_pattern, len(matched_table_list)))
+    
+
