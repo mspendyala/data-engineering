@@ -14,6 +14,7 @@ current_date_value = current_date()
 
 ### Calculate the target date for filtering
 target_date = current_date_value - expr("INTERVAL 8 DAYS")
+Note: You cannot directly print the value of target_date. It must be added to a dataframe as a column and displayed
 
 ### Example target_date = 2023-05-18
 df = df.withColumn("target_date", target_date)
